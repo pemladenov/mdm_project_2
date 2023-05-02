@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QA App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3HV5HzF6Gvk/e3sB7Z6pEZbL9zEPAg" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybB5IXNxF9_NVV6gPClATDLDJ7l4z7U3zJF3b4rywgs0xE2jD" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+
+        h1, h2, h3, h4, h5, h6, p, .form-label, .label {
+            color: beige;
+        }
+        .card-text {
+            font-size: 0.9rem;
+            color: black;
+        }
+    </style>
+    <script>
+        async function askQuestion() {
+            const question = document.getElementById('question').value;
+            const paragraph = document.getElementById('paragraph').value;
+
+            const response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `question=${encodeURIComponent(question)}&paragraph=${encodeURIComponent(paragraph)}`
+            });
+
+            const answer = await response.text();
+            document.getElementById('answer').innerText = answer;
+        }
+
+        function fillInputs(paragraph, question) {
+            document.getElementById('paragraph').value = paragraph;
+            document.getElementById('question').value = question;
+        }
+    </script>
+</head>
+<body class="bg-dark">
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Question Answering App</h1>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <form>
+                    <div class="mb-3">
+                        <label for="paragraph" class="form-label">Paragraph:</label>
+                        <textarea class="form-control" id="paragraph" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="question" class="form-label">Question:</label>
+                        <input type="text" class="form-control" id="question" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-primary" onclick="askQuestion()">Ask</button>
+                    </div>
+                </form>
+                <h2 class="text-center mt-4">Answer: <span id="answer" class="fw-bold"></span></h2>
+                <br>
+                <h3 class="text-center mt-4">Predefined Q & A for the lazy ones:</h3>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <div class="card" style="cursor:pointer;" onclick="fillInputs('The FIFA World Cup is a global soccer tournament held every four years, where national teams from around the world compete to be crowned world champions. The team that has won the most FIFA World Cup titles is Brazil, with a total of five wins.', 'Which team has won the most FIFA World Cups?')">
+                            <div class="card-body">
+                                <p class="card-text">The FIFA World Cup is a global soccer tournament held every four years, where national teams from around the world compete to be crowned world champions. The team that has won the most FIFA World Cup titles is Brazil, with a total of five wins.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card" style="cursor:pointer;" onclick="fillInputs('Quantum mechanics is the study of the behavior of matter and energy at a very small scale, where classical physics laws no longer apply. Quantum mechanics explains how subatomic particles, such as electrons and photons, behave and interact with each other. It has led to many technological advancements, including transistors, lasers, and MRI machines.', 'What is quantum mechanics?')">
+                            <div class="card-body">
+                                <p class="card-text">Quantum mechanics is the study of the behavior of matter and energy at a very small scale, where classical physics laws no longer apply. Quantum mechanics explains how subatomic particles, such as electrons and photons, behave and interact with each other. It has led to many technological advancements, including transistors, lasers, and MRI machines.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card" style="cursor:pointer;" onclick="fillInputs('Artificial Intelligence is the development of computer systems that can perform tasks that usually require human intelligence, such as learning, problem-solving, and decision-making. AI is used in many industries, including healthcare, finance, and transportation, to automate tasks, improve efficiency, and make predictions. However, it also raises ethical concerns, such as job displacement and bias.', 'In which industries is Artificial Intelligence used?')">
+                            <div class="card-body">
+                                <p class="card-text">Artificial Intelligence is the development of computer systems that can perform tasks that usually require human intelligence, such as learning, problem-solving, and decision-making. AI is used in many industries, including healthcare, finance, and transportation, to automate tasks, improve efficiency, and make predictions. However, it also raises ethical concerns, such as job displacement and bias.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card" style="cursor:pointer;" onclick="fillInputs('Blockchain is a digital ledger technology that allows for secure and transparent transactions between parties, without the need for intermediaries such as banks. Blockchain technology uses cryptography to create a distributed and decentralized database, where every participant in the network can see and verify transactions. It has many potential applications beyond cryptocurrencies, such as supply chain management and voting.', 'What technology does blockchain use to create a database?')">
+                            <div class="card-body">
+                                <p class
+                                ="card-text">Blockchain is a digital ledger technology that allows for secure and transparent transactions between parties, without the need for intermediaries such as banks. Blockchain technology uses cryptography to create a distributed and decentralized database, where every participant in the network can see and verify transactions. It has many potential applications beyond cryptocurrencies, such as supply chain management and voting.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card" style="cursor:pointer;" onclick="fillInputs('Cognitive Psychology is the study of mental processes such as attention, perception, memory, and problem-solving, and how they affect human behavior. Cognitive psychology is concerned with how people acquire, process, store, and use information. It has applications in many areas, such as education, advertising, and mental health.', 'What is Cognitive Psychology concerned with?')">
+                            <div class="card-body">
+                                <p class="card-text">Cognitive Psychology is the study of mental processes such as attention, perception, memory, and problem-solving, and how they affect human behavior. Cognitive psychology is concerned with how people acquire, process, store, and use information. It has applications in many areas, such as education, advertising, and mental health.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card" style="cursor:pointer;" onclick="fillInputs('Climate Change is the long-term alteration of Earths climate patterns, caused by human activities such as burning fossil fuels and deforestation, leading to rising temperatures and sea levels, and more frequent natural disasters. Climate change is one of the biggest global challenges facing humanity, with potentially catastrophic consequences for the environment, economy, and society. It requires urgent action and global cooperation to mitigate its effects and prevent further damage.', 'What causes Climate Change?')">
+                            <div class="card-body">
+                                <p class="card-text">Climate Change is the long-term alteration of Earths climate patterns, caused by human activities such as burning fossil fuels and deforestation, leading to rising temperatures and sea levels, and more frequent natural disasters. Climate change is one of the biggest global challenges facing humanity, with potentially catastrophic consequences for the environment, economy, and society. It requires urgent action and global cooperation to mitigate its effects and prevent further damage.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>        
