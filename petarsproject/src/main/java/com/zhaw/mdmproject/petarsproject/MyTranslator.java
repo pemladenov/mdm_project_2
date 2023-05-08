@@ -22,9 +22,19 @@ public class MyTranslator implements Translator<QAInput, String> {
     private Vocabulary vocabulary;
     private BertTokenizer tokenizer;
 
+    /*
+    * This class, MyTranslator, is a custom translator for a Question-Answering (QA) model,
+    * implementing the Translator<QAInput, String> interface from the DJL library.
+    * It takes a QAInput object with a question and a paragraph and returns the answer as a String.
+    */
 
     @Override
     public void prepare(TranslatorContext ctx) throws IOException {
+        /* This method initializes the vocabulary and tokenizer used for encoding the input
+        * the vocabulary is loaded from a text file containing the vocabulary of the model. 
+        * The tokenizer is a BERT tokenizer which is used to tokenize the input question and paragraph.
+        * Tokenization is the process of splitting the input into tokens, which are the basic units.
+        */
         Path path = Paths.get("petarsproject/src/main/resources/bert-base-cased-vocab.txt");
         vocabulary = DefaultVocabulary.builder()
                 .optMinFrequency(1)
@@ -36,6 +46,8 @@ public class MyTranslator implements Translator<QAInput, String> {
 
     @Override
     public NDList processInput(TranslatorContext ctx, QAInput input) throws IOException {
+        /*This method tokenizes and encodes the input question and paragraph into
+        NDArrays for indices, attention mask, and token types to be used by the model*/
         BertToken token =
                 tokenizer.encode(
                         input.getQuestion().toLowerCase(),
@@ -58,6 +70,8 @@ public class MyTranslator implements Translator<QAInput, String> {
 
     @Override
     public String processOutput(TranslatorContext ctx, NDList list) {
+        /*This method processes the model output to find the start and end indices
+        * of the answer in the input paragraph, and converts the tokens back to a String answer. */
         NDArray startLogits = list.get(0);
         NDArray endLogits = list.get(1);
         int startIdx = (int) startLogits.argMax().getLong();
