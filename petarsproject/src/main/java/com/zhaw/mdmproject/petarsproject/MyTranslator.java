@@ -35,7 +35,7 @@ public class MyTranslator implements Translator<QAInput, String> {
         * The tokenizer is a BERT tokenizer which is used to tokenize the input question and paragraph.
         * Tokenization is the process of splitting the input into tokens, which are the basic units.
         */
-        Path path = Paths.get("petarsproject/src/main/resources/bert-base-cased-vocab.txt");
+        Path path = Paths.get("src/main/resources/bert-base-cased-vocab.txt");
         vocabulary = DefaultVocabulary.builder()
                 .optMinFrequency(1)
                 .addFromTextFile(path)

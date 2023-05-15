@@ -20,7 +20,7 @@ public class Inference {
         //The Criteria object is used to load the model and the translator.
         Criteria<QAInput, String> criteria = Criteria.builder()
                 .setTypes(QAInput.class, String.class)
-                .optModelPath(Paths.get("petarsproject/src/main/resources/trace_cased_bertqa.pt"))
+                .optModelPath(Paths.get("src/main/resources/trace_cased_bertqa.pt"))
                 .optTranslator(translator)
                 .optProgress(new ProgressBar()).build();
         
